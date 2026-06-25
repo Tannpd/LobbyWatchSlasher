@@ -274,10 +274,10 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Container */}
+      {/* Main Container - 3 Column Layout Grid */}
       <main className="main-content">
         
-        {/* Left column - Setup & Presets */}
+        {/* Column 1: Control Center */}
         <section className="sidebar-col">
           
           {/* Create Campaign Escrow */}
@@ -371,11 +371,9 @@ export default function App() {
           </div>
         </section>
 
-        {/* Right column - Audit & Radar Radar Workspace */}
-        <section className="workspace-col">
-          
-          {/* Active Campaigns registry */}
-          <div className="cyber-panel">
+        {/* Column 2: Dossier Registry */}
+        <section className="dossier-col">
+          <div className="cyber-panel" style={{ height: '100%' }}>
             <div className="panel-bracket pb-tl"></div>
             <div className="panel-bracket pb-tr"></div>
             <div className="panel-bracket pb-bl"></div>
@@ -423,9 +421,18 @@ export default function App() {
                 ))}
               </div>
             )}
+          </div>
+        </section>
 
-            {/* Selected Campaign Workspace */}
-            {activeCampaign && (
+        {/* Column 3: Intel Scanner */}
+        <section className="scanner-col">
+          <div className="cyber-panel" style={{ height: '100%' }}>
+            <div className="panel-bracket pb-tl"></div>
+            <div className="panel-bracket pb-tr"></div>
+            <div className="panel-bracket pb-bl"></div>
+            <div className="panel-bracket pb-br"></div>
+
+            {activeCampaign ? (
               <div className={`workspace-divider ${activeCampaign.status === 'SLASHED' ? 'slashed-emergency' : ''}`}>
                 
                 {/* EMERGENCY HEADER BANNER */}
@@ -485,7 +492,7 @@ export default function App() {
                           disabled={loading}
                           className="btn-cyber-danger"
                         >
-                          Scan Legislative plagiarism
+                          Scan Plagiarism
                         </button>
                         
                         <button 
@@ -495,7 +502,7 @@ export default function App() {
                           className="btn-cyber-secondary"
                           title="Release campaign funds to clean politician"
                         >
-                          Release Campaign Funds
+                          Release Funds
                         </button>
                       </div>
                       
@@ -508,14 +515,16 @@ export default function App() {
                   </div>
                 )}
 
-                {/* Audit loading state */}
+                {/* Audit loading state with Circular Sweeping Radar */}
                 {activeCampaign.status === 'AUDITING' && (
                   <div className="dispute-loader-panel">
-                    <div className="hex-loader"></div>
+                    <div className="radar-sweep-container">
+                      <div className="radar-sweep-line"></div>
+                    </div>
                     <div style={{ zIndex: 10 }}>
-                      <h4 className="dispute-loader-title">Forensic Scanners Auditing Texts</h4>
+                      <h4 className="dispute-loader-title">Forensic Radar Scanning...</h4>
                       <p className="dispute-loader-desc">
-                        Comparing official bill draft with corporate memo. Checking for secret lobbyist co-authorship.
+                        Comparing official bill draft with corporate whitepapers natively.
                       </p>
                       <div className="dispute-loader-links">
                         {activeCampaign.bill_url && (
@@ -537,7 +546,7 @@ export default function App() {
                 {(activeCampaign.status === 'SLASHED' || activeCampaign.status === 'RELEASED' || activeCampaign.status === 'FAILED') && (
                   <div className="dispute-report-wrapper">
                     
-                    {/* Visual Comparison Split Screen */}
+                    {/* Vertical Comparison Screen */}
                     <div className="split-viewer">
                       
                       {/* Government bill pane */}
@@ -557,11 +566,11 @@ export default function App() {
                         <div className="viewer-pane-text">
                           <p className="viewer-pane-meta">SOURCE: {activeCampaign.bill_url}</p>
                           <p>
-                            "Scanning official legislative file draft and legal sections. Auditing policy structures and specific exemption codes..."
+                            "Scanning official legislative file draft. Auditing policy structures and specific exemption codes..."
                           </p>
                           {activeCampaign.status === 'SLASHED' && (
                             <p className="viewer-pane-alert scam">
-                              🚩 SEMANTIC CO-AUTHORSHIP IDENTIFIED IN GOVERNMENT BILL.
+                              🚩 SEMANTIC CO-AUTHORSHIP IDENTIFIED IN BILL.
                             </p>
                           )}
                         </div>
@@ -584,7 +593,7 @@ export default function App() {
                         <div className="viewer-pane-text">
                           <p className="viewer-pane-meta">SOURCE: {activeCampaign.lobbyist_url}</p>
                           <p>
-                            "Scanning think-tank paper, corporate emails, and lobbyist draft recommendations. Matching legal loopholes..."
+                            "Scanning think-tank paper and corporate recommendations. Matching legal loopholes..."
                           </p>
                           {activeCampaign.status === 'SLASHED' && (
                             <p className="viewer-pane-alert scam">
@@ -640,25 +649,32 @@ export default function App() {
                   </div>
                 )}
               </div>
+            ) : (
+              <div className="registry-empty" style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <p className="registry-empty-text">Awaiting Surveillance Target selection</p>
+                <p className="registry-empty-subtext">Select a campaign dossier card from the ledger list.</p>
+              </div>
             )}
-          </div>
-
-          {/* Audit Logs terminal */}
-          <div className="terminal-panel">
-            <h3 className="terminal-header">
-              <Activity size={12} /> Anti-Corruption Scanner Logs
-            </h3>
-            <div className="terminal-body">
-              {consoleLogs.map((log, idx) => (
-                <div key={idx} className="terminal-line">
-                  <span className="terminal-time">[{log.time}]</span>
-                  <span className="terminal-text">{log.msg}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
       </main>
+
+      {/* Full Width Console logs terminal at the bottom */}
+      <div className="terminal-row-wrapper">
+        <div className="terminal-panel">
+          <h3 className="terminal-header">
+            <Activity size={12} /> Anti-Corruption Radar logs
+          </h3>
+          <div className="terminal-body">
+            {consoleLogs.map((log, idx) => (
+              <div key={idx} className="terminal-line">
+                <span className="terminal-time">[{log.time}]</span>
+                <span className="terminal-text">{log.msg}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="app-footer">
